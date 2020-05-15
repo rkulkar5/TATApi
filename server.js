@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({
 var whitelist = ['http://localhost:4200']
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
       callback(new Error('Untrusted source of access!!!'))
