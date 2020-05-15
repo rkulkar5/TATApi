@@ -18,14 +18,14 @@ mongoose.connect(dbConfig.db, {
 )
 
 // Setting up port with express js
-const candidateRoute = require('../routes/candidate.route');
-const bandRoute = require('../routes/band.route');
-const jrssRoute = require('../routes/jrss.route');
-const testConfigRoute = require('../routes/testConfig.route');
-const quizQuestionsRoute = require('../routes/questionBank.route');
-const userAnswerRoute = require('../routes/userAnswer.route');
-const loginRoute = require('../routes/login.route');
-const resultRoute = require('../routes/userResult.route');
+const candidateRoute = require('./routes/candidate.route');
+const bandRoute = require('./routes/band.route');
+const jrssRoute = require('./routes/jrss.route');
+const testConfigRoute = require('./routes/testConfig.route');
+const quizQuestionsRoute = require('./routes/questionBank.route');
+const userAnswerRoute = require('./routes/userAnswer.route');
+const loginRoute = require('./routes/login.route');
+const resultRoute = require('./routes/userResult.route');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
