@@ -20,10 +20,10 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
 
-let mongodb_services = services["databases-for-mongodb"];
+let mongodb_services =  appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo].*/)
 
 // This check ensures there is a services for MongoDB databases
-console.log("***** mongodb_services *****",mongodb_services);
+//console.log("***** mongodb_services *****",mongodb_services);
 assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
 // We now take the first bound MongoDB service and extract it's credentials object
@@ -36,7 +36,7 @@ let options = {
 };
 
 // If there is a certificate available, use that, otherwise assume Lets Encrypt certifications.
-if (credentials.hasOwnProperty("ca_certificate_base64")) {
+if (credentials.certificate.hasOwnProperty("certificate_base64")) {
     let ca = [new Buffer(credentials.certificate.certificate_base64, 'base64')];
     options.sslCA = ca;
 }
