@@ -18,12 +18,12 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
-
+console.log("***** services *****",services);
 let mongodb_services;
 if (appEnv.services['compose-for-mongodb']) { 
    mongodb_services =  appEnv.services['compose-for-mongodb']; 
 } else if (appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/)) { 
-   mongodb_services =  appEnv.services['compose-for-mongodb']; 
+   mongodb_services =  appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/); 
 } else if (appEnv.services['TATDB']) {
     mongodb_services =  appEnv.services['TATDB'];
   }
