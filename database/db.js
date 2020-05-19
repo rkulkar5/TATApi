@@ -12,9 +12,11 @@ try {
     // console.log(e)
 }
 
+var appEnv1 = cfenv.getAppEnv();
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 
-console.log("***** vcap_services *****",vcap_services );
+console.log("***** appEnv1 *****",appEnv1.port );
+console.log("***** process.env.PORT *****",process.env.PORT );
 
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
