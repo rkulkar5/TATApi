@@ -59,7 +59,7 @@ app.use('/result', resultRoute)
 
 
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/rajesh/rk', (req, res) => res.send('Hello World!'))
 
 // Create port
 const port = process.env.PORT || 4000;
