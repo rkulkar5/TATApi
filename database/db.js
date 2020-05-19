@@ -12,11 +12,7 @@ try {
     // console.log(e)
 }
 
-var appEnv1 = cfenv.getAppEnv();
-var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 
-console.log("***** VCAP_SERVICES *****",appEnv1.VCAP_SERVICES );
-console.log("***** process.VCAP_SERVICES *****",process.env.VCAP_SERVICES );
 
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
@@ -24,7 +20,7 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
-console.log("***** services *****",services);
+
 let mongodb_services;
 if (appEnv.services['compose-for-mongodb']) { 
    mongodb_services =  appEnv.services['compose-for-mongodb']; 
@@ -36,7 +32,7 @@ if (appEnv.services['compose-for-mongodb']) {
 
 
 // This check ensures there is a services for MongoDB databases
-console.log("***** mongodb_services *****",mongodb_services);
+
 assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
 // We now take the first bound MongoDB service and extract it's credentials object
