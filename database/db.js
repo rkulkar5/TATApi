@@ -12,10 +12,12 @@ try {
     // console.log(e)
 }
 
-console.log("***** vcapLocal *****",vcapLocal );
+var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
+
+console.log("***** vcap_services *****",vcap_services );
 
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
-console.log("***** appEnvOpts *****",appEnvOpts );
+
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
 // Within the application environment (appenv) there's a services object
