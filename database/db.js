@@ -15,8 +15,8 @@ try {
 var appEnv1 = cfenv.getAppEnv();
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 
-console.log("***** appEnv1 *****",appEnv1.port );
-console.log("***** process.env.PORT *****",process.env.PORT );
+console.log("***** VCAP_SERVICES *****",appEnv1.VCAP_SERVICES );
+console.log("***** process.VCAP_SERVICES *****",process.env.VCAP_SERVICES );
 
 const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
