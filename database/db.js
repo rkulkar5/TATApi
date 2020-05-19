@@ -27,7 +27,7 @@ console.log("***** mongodb_services *****",mongodb_services);
 assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
 // We now take the first bound MongoDB service and extract it's credentials object
-let credentials = mongodb_services[0].credentials;
+let credentials = mongodb_services.credentials;
 
 // We always want to make a validated TLS/SSL connection
 let options = {
