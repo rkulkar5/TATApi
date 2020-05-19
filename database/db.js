@@ -3,6 +3,7 @@
 
 // get cfenv 
 var cfenv = require('cfenv');
+const assert = require('assert');
 
 
 var vcapLocal;
@@ -20,10 +21,10 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
 
-let mongodb_services = services["TATDB"];
+let mongodb_services = services["databases-for-mongodb"];
 
 // This check ensures there is a services for MongoDB databases
-assert(!util.isUndefined(mongodb_services), "App must be bound to TATDB service");
+assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
 // We now take the first bound MongoDB service and extract it's credentials object
 let credentials = mongodb_services[0].credentials;
