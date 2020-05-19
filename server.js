@@ -5,6 +5,54 @@ let express = require('express'),
    bodyParser = require('body-parser'),
    dbConfig = require('./database/db');
 
+
+
+var cfenv = require('cfenv');
+const assert = require('assert');
+const util = require('util')
+
+
+var appEnv1 = cfenv.getAppEnv();
+var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
+
+console.log("***** VCAP_SERVICES *****",appEnv1.VCAP_SERVICES );
+console.log("***** process.VCAP_SERVICES *****",process.env.VCAP_SERVICES );
+
+
+
+
+var vcapLocal;
+try {
+    vcapLocal = require('./vcap-local.json');
+    console.log("Loaded local VCAP");
+} catch (e) {
+    // console.log(e)
+}
+
+const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+
+const appEnv = cfenv.getAppEnv(appEnvOpts);
+
+// Within the application environment (appenv) there's a services object
+let services = appEnv.services;
+
+let mongodb_services;
+if (appEnv.services['compose-for-mongodb']) { 
+   mongodb_services =  appEnv.services['compose-for-mongodb']; 
+} else if (appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/)) { 
+   mongodb_services =  appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/); 
+} else if (appEnv.services['TATDB']) {
+    mongodb_services =  appEnv.services['TATDB'];
+  }
+
+
+// This check ensures there is a services for MongoDB databases
+console.log("***** mongodb_services *****",mongodb_services);
+
+
+
+
+
 // Connecting with mongo db
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
