@@ -57,6 +57,10 @@ app.use('/api/login', loginRoute)
 app.use('/result', resultRoute)
 
 
+
+
+app.get('/', (req, res) => res.send('Hello World!'))
+
 // Create port
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
