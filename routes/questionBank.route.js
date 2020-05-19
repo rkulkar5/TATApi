@@ -56,8 +56,8 @@ quizRoute.route('/:noOfQuestions/:userName/:jrss').get((req, res) => {
 
 
 // Get single QuestionBank
-quizRoute.route('/read').get((req, res) => {
-  res.send('Hello World!')
+quizRoute.route('/read/:name').get((req, res) => {
+  res.send('Hello World!' + req.params.name)
   
 })
 
