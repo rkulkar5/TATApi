@@ -1,9 +1,9 @@
 // get cfenv 
 var cfenv = require('cfenv');
-
+var vcapLocal;
 module.exports = {
 
-var vcapLocal;
+
 try {
     vcapLocal = require('./vcap-local.json');
     console.log("Loaded local VCAP");
