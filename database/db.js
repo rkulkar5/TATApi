@@ -20,7 +20,7 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
 
-let mongodb_services =  appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo].*/)
+let mongodb_services =  appEnv.getService(/*[Mm][Oo][Nn][Gg][Oo]*/)
 
 // This check ensures there is a services for MongoDB databases
 console.log("***** mongodb_services *****",mongodb_services);
