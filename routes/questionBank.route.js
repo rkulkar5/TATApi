@@ -53,15 +53,11 @@ quizRoute.route('/:noOfQuestions/:userName/:jrss').get((req, res) => {
   })
 })
 
+
+
 // Get single QuestionBank
 quizRoute.route('/read').get((req, res) => {
-  QuestionBank.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  }).skip(Number(1)).limit(1);
+  res.send('Hello World!')
   
 })
 
