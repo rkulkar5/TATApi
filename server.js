@@ -3,7 +3,7 @@ let express = require('express'),
    mongoose = require('mongoose'),
    cors = require('cors'),
    bodyParser = require('body-parser'),
-   dbConfig = require('./database/db');
+   dbConfig = require('../database/db.js');
 
 
 // Connecting with mongo db
