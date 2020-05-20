@@ -15,7 +15,11 @@ const util = require('util')
 var appEnv1 = cfenv.getAppEnv();
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 
-console.log("***** VCAP_application *****",appEnv1.app );
+console.log("*****1  VCAP_application *****",cfenv.getAppEnv().app );
+
+
+console.log("***** 2 get services *****",appEnv1.getServices() );
+
 console.log("***** VCAP_SERVICES *****",appEnv1.services );
 console.log("***** process.VCAP_SERVICES *****",process.env.VCAP_SERVICES );
 
