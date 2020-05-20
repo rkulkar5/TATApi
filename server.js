@@ -6,63 +6,6 @@ let express = require('express'),
    dbConfig = require('./database/db');
 
 
-
-var cfenv = require('cfenv');
-const assert = require('assert');
-const util = require('util')
-
-
-var appEnv1 = cfenv.getAppEnv();
-var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
-
-console.log("*****1  VCAP_application *****",cfenv.getAppEnv().app );
-
-
-console.log("***** 2 get services *****",appEnv1.getServices() );
-
-console.log("***** VCAP_SERVICES *****",appEnv1.services );
-console.log("***** process.VCAP_SERVICES *****",process.env.VCAP_SERVICES );
-
-
-
-
-var vcapLocal;
-try {
-    vcapLocal = require('./vcap-local.json');
-    console.log("Loaded local VCAP");
-} catch (e) {
-    // console.log(e)
-}
-
-const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
-
-const appEnv = cfenv.getAppEnv(appEnvOpts);
-
-// Within the application environment (appenv) there's a services object
-let services = appEnv.services;
-
-let mongodb_services;
-if (appEnv.services['compose-for-mongodb']) { 
-   mongodb_services =  appEnv.services['compose-for-mongodb']; 
-} else if (appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/)) { 
-   mongodb_services =  appEnv.getService(/.*[Mm][Oo][Nn][Gg][Oo][dD][bB].*/); 
-} else if (appEnv.getService('TATDB')) {
-    mongodb_services =  appEnv.getService('TATDB');
-  }
-
-
-// This check ensures there is a services for MongoDB databases
-console.log("***** mongodb_services *****",mongodb_services);
-// This check ensures there is a services for MongoDB databases
-//assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
-
-// We now take the first bound MongoDB service and extract it's credentials object
-let credentials = mongodb_services[0].credentials;
-
-
-
-
-
 // Connecting with mongo db
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
