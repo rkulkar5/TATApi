@@ -12,7 +12,7 @@ try {
 }
 
 
-const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+const appEnvOpts = vcapLocal ? { vcapLocal } : {}
 
 console.log("*********appEnvOpts ************", appEnvOpts);
 
@@ -22,7 +22,7 @@ const appEnv = cfenv.getAppEnv(appEnvOpts);
 console.log("*********appEnv ************", appEnv);
 
 // Within the application environment (appenv) there's a services object
-let services = appEnv.services;
+let services = vcapLocal.services;
 
 console.log("*********services ************", services);
 
