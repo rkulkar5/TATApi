@@ -5,7 +5,7 @@ const util = require('util')
 
 var vcapLocal;
 try {
-    vcapLocal = require('../vcap-local.json');
+    vcapLocal = require('../../vcap-local.json');
     console.log("Loaded local VCAP");
 } catch (e) {
     // console.log(e)
