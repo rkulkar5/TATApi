@@ -15,7 +15,8 @@ const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
-console.log("********* appEnv ************", appEnv.services);
+console.log("********* appEnv ************", appEnvOpts);
+console.log("********* ************");
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
 
