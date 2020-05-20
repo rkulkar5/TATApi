@@ -11,7 +11,10 @@ try {
     // console.log(e)
 }
 
-const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+console.log("*********vcapLocal ************", vcapLocal);
+
+const appEnvOpts =  { vcap: vcapLocal };
+//const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
