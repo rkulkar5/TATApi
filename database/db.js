@@ -14,8 +14,11 @@ try {
 console.log("*********vcapLocal ************", vcapLocal);
 
 const appEnvOpts =  { vcap: vcapLocal };
-//const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
+console.log("*********appEnvOpts ************", appEnvOpts);
+
+console.log("*********appEnvOpts1 ************", appEnvOpts1);
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
 // Within the application environment (appenv) there's a services object
@@ -23,6 +26,7 @@ let services = appEnv.services;
 
 let mongodb_services = services["compose-for-mongodb"];
 
+console.log("*********mongodb_services ************", mongodb_services);
 
 //console.log("********* mongodb_services ************", mongodb_services);
 // This check ensures there is a services for MongoDB databases
