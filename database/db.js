@@ -15,12 +15,14 @@ const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
-console.log("********* appEnv ************", appEnv);
+console.log("********* appEnv ************", appEnv.services);
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
 
-let mongodb_services = services["databases-for-mongodb"];
+let mongodb_services = services["compose-for-mongodb"];
 
+
+console.log("********* mongodb_services ************", mongodb_services);
 // This check ensures there is a services for MongoDB databases
 assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
