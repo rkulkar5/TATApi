@@ -1,3 +1,45 @@
+// get cfenv 
+var cfenv = require('cfenv');
+const assert = require('assert');
+const util = require('util')
+
+var vcapLocal;
+try {
+    vcapLocal = require('./vcap-local.json');
+    console.log("Loaded local VCAP");
+} catch (e) {
+    // console.log(e)
+}
+
+const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+
+const appEnv = cfenv.getAppEnv(appEnvOpts);
+
+console.log("********* appEnv ************", appEnv);
+// Within the application environment (appenv) there's a services object
+let services = appEnv.services;
+
+let mongodb_services = services["databases-for-mongodb"];
+
+// This check ensures there is a services for MongoDB databases
+assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
+
+// We now take the first bound MongoDB service and extract it's credentials object
+let credentials = mongodb_services[0].credentials;
+
+console.log("********* credentials ************", credentials);
+
+// We always want to make a validated TLS/SSL connection
+let options = {
+    ssl: true,
+    sslValidate: true
+};
+
+// If there is a certificate available, use that, otherwise assume Lets Encrypt certifications.
+if (credentials.hasOwnProperty("ca_certificate_base64")) {
+    let ca = [new Buffer(credentials.certificate.certificate_base64, 'base64')];
+    options.sslCA = ca;
+}
 
 module.exports = {
 
