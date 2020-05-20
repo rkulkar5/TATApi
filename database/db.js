@@ -14,7 +14,7 @@ try {
 console.log("*********vcapLocal ************", vcapLocal);
 
 const appEnvOpts =  { vcap: vcapLocal };
-const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+const appEnvOpts1 = vcapLocal ? { vcap: vcapLocal } : {}
 
 console.log("*********appEnvOpts ************", appEnvOpts);
 
