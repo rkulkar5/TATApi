@@ -11,18 +11,20 @@ try {
     // console.log(e)
 }
 
-console.log("*********vcapLocal ************", vcapLocal);
 
-const appEnvOpts =  { vcap: vcapLocal };
-const appEnvOpts1 = vcapLocal ? { vcap: vcapLocal } : {}
+const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
 console.log("*********appEnvOpts ************", appEnvOpts);
 
-console.log("*********appEnvOpts1 ************", appEnvOpts1);
+
 const appEnv = cfenv.getAppEnv(appEnvOpts);
+
+console.log("*********appEnv ************", appEnv);
 
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
+
+console.log("*********services ************", services);
 
 let mongodb_services = services["compose-for-mongodb"];
 
