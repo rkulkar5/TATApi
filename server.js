@@ -3,14 +3,14 @@ let express = require('express'),
    mongoose = require('mongoose'),
    cors = require('cors'),
    bodyParser = require('body-parser'),
-   dbConfig = require('../database/db.js');
+   dbConfig = require('./database/db');
 
+   
+   console.log(">>>>>>>>>>>>>>>dbConfig.db>>>>>> ",dbConfig.options);
 
 // Connecting with mongo db
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.db, {
-   useNewUrlParser: true
-}).then(() => {
+mongoose.connect(dbConfig.db, dbConfig.options).then(() => {
       console.log('Database sucessfully connected')
    },
    error => {
