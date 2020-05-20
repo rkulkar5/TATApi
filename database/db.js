@@ -5,7 +5,7 @@ const util = require('util')
 
 var vcapLocal;
 try {
-    vcapLocal = require('./vcap-local.json');
+    vcapLocal = require('../vcap-local.json');
     console.log("Loaded local VCAP");
 } catch (e) {
     // console.log(e)
@@ -15,7 +15,7 @@ const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
 
 const appEnv = cfenv.getAppEnv(appEnvOpts);
 
-console.log("********* appEnv ************", appEnvOpts);
+console.log("********* appEnv ************", appEnv.services);
 console.log("********* ************");
 // Within the application environment (appenv) there's a services object
 let services = appEnv.services;
@@ -23,14 +23,14 @@ let services = appEnv.services;
 let mongodb_services = services["compose-for-mongodb"];
 
 
-console.log("********* mongodb_services ************", mongodb_services);
+//console.log("********* mongodb_services ************", mongodb_services);
 // This check ensures there is a services for MongoDB databases
 assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
 
 // We now take the first bound MongoDB service and extract it's credentials object
 let credentials = mongodb_services[0].credentials;
 
-console.log("********* credentials ************", credentials);
+console.log("********* credentials.mongodb.certificate.certificate_base64 ************", credentials);
 
 // We always want to make a validated TLS/SSL connection
 let options = {
