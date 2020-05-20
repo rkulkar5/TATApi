@@ -1,53 +1,77 @@
-// get cfenv 
-var cfenv = require('cfenv');
-const assert = require('assert');
-const util = require('util')
+let express = require('express'),
+   path = require('path'),
+   mongoose = require('mongoose'),
+   cors = require('cors'),
+   bodyParser = require('body-parser'),
+   dbConfig = require('./database/db');
 
-var vcapLocal;
-try {
-    vcapLocal = require('../vcap-local.json');
-    console.log("Loaded local VCAP");
-} catch (e) {
-    // console.log(e)
+   
+   console.log(">>>>>>>>>>>>>>>dbConfig.db>>>>>> ",dbConfig.options);
+
+// Connecting with mongo db
+mongoose.Promise = global.Promise;
+mongoose.connect(dbConfig.db, dbConfig.options).then(() => {
+      console.log('Database sucessfully connected')
+   },
+   error => {
+      console.log('Database could not connected: ' + error)
+   }
+)
+
+// Setting up port with express js
+const candidateRoute = require('./routes/candidate.route');
+const bandRoute = require('./routes/band.route');
+const jrssRoute = require('./routes/jrss.route');
+const testConfigRoute = require('./routes/testConfig.route');
+const quizQuestionsRoute = require('./routes/questionBank.route');
+const userAnswerRoute = require('./routes/userAnswer.route');
+const loginRoute = require('./routes/login.route');
+const resultRoute = require('./routes/userResult.route');
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
+
+var whitelist = ['http://localhost:4200']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Untrusted source of access!!!'))
+    }
+  }
 }
 
-const appEnvOpts = vcapLocal ? { vcap: vcapLocal } : {}
+app.use(cors(corsOptions));
 
-const appEnv = cfenv.getAppEnv(appEnvOpts);
+app.use(express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
+app.use('/', express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
+app.use('/api', candidateRoute)
+app.use('/api/band', bandRoute);
+app.use('/api/testConfig', testConfigRoute);
+app.use('/api/jrss', jrssRoute);
+app.use('/api/quiz', quizQuestionsRoute)
+app.use('/api/userAnswer', userAnswerRoute)
+app.use('/api/login', loginRoute)
+app.use('/result', resultRoute)
 
-// Within the application environment (appenv) there's a services object
-let services = appEnv.services;
 
-let mongodb_services = services["compose-for-mongodb"];
+// Create port
+const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+  console.log('Connected to port ' + port)
+})
 
+// Find 404 and hand over to error handler
+app.use((req, res, next) => {
+   next(createError(404));
+});
 
-//console.log("********* mongodb_services ************", mongodb_services);
-// This check ensures there is a services for MongoDB databases
-assert(!util.isUndefined(mongodb_services), "App must be bound to databases-for-mongodb service");
-
-// We now take the first bound MongoDB service and extract it's credentials object
-var credentials = mongodb_services[0].credentials;
-
-console.log("********* credentials.mongodb.certificate.certificate_base64 ************", credentials.connection.mongodb.certificate.certificate_base64);
-
-// We always want to make a validated TLS/SSL connection
-let options = {
-    ssl: true,
-    sslValidate: true
-
-};
-
-console.log("********", credentials.connection.mongodb.certificate.hasOwnProperty("certificate_base64"));
-// If there is a certificate available, use that, otherwise assume Lets Encrypt certifications.
-if (credentials.connection.mongodb.certificate.hasOwnProperty("certificate_base64")) {
-console.log("******** INSIDE ********");
-    let ca = [new Buffer(credentials.connection.mongodb.certificate.certificate_base64, 'base64')];
-    options.sslCA = ca;
-	
-}
-
-//db: 'mongodb://localhost:27017/sampleDB'
-module.exports.db = 'mongodb://admin:TATDBAdmin@1190a2a4-473b-4c03-8cd8-aded77b5122c-0.bn2a0fgd0tu045vmv2i0.databases.appdomain.cloud:31109/TATDB?authSource=admin&readPreference=primaryPreferred';
-
-module.exports.options = options;
-
+// error handler
+app.use(function (err, req, res, next) {
+  console.error(err.message); // Log error message in our server's console
+  if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
+  res.status(err.statusCode).send(err.message); // All HTTP requests must have a response, so let's send back an error with its status code and message
+});
