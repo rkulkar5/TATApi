@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({
    extended: false
 }));
 
-var whitelist = ['http://localhost:4200','https://tatclientapp.mybluemix.ne']
+var whitelist = ['http://localhost:4200','https://tatclientapp.mybluemix.net']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
