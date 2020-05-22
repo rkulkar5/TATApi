@@ -47,6 +47,7 @@ var corsOptions = {
 
 var corsOptions1 = {
   origin: '*',
+   'Access-Control-Allow-Origin: *',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
