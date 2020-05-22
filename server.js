@@ -44,7 +44,15 @@ var corsOptions = {
   }
 }
 
-app.use(cors());
+
+var corsOptions1 = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions1)); 
+
+//app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
