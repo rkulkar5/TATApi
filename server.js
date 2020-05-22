@@ -44,14 +44,24 @@ var corsOptions = {
   }
 }
 
+app.use(function(req,res, next){
+   if(req.method == "OPTIONS"){
+      res.header('Access-Control-Allow-Headers', "*");
+      res.header('Access-Control-Allow-Methods', "POST, GET, OPTIONS, PUT, PATCH, DELETE");
+      res.header('Access-Control-Allow-Origin', "*");
+      res.header('Access-Control-Allow-Credentials', true);
+      return res.sendStatus(200);
+    }
+    else
+      return next();
+});
 
 var corsOptions1 = {
   origin: '*',
-   Access-Control-Allow-Origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-app.use(cors(corsOptions1)); 
+app.use(cors(corsOptions)); 
 
 //app.use(cors());
 
